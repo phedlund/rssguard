@@ -21,6 +21,7 @@
 #include "miscellaneous/iofactory.h"
 #include "miscellaneous/mutex.h"
 #include "miscellaneous/feedreader.h"
+#include "applicationiconbadge.h"
 #include "gui/feedsview.h"
 #include "gui/feedmessageviewer.h"
 #include "gui/messagebox.h"
@@ -46,7 +47,7 @@ Application::Application(const QString &id, int &argc, char **argv)
   : QtSingleApplication(id, argc, argv),
     m_feedReader(nullptr),
     m_updateFeedsLock(nullptr), m_userActions(QList<QAction*>()), m_mainForm(nullptr),
-    m_trayIcon(nullptr), m_settings(nullptr), m_system(nullptr), m_skins(nullptr),
+    m_trayIcon(nullptr), m_iconBadge(nullptr), m_settings(nullptr), m_system(nullptr), m_skins(nullptr),
     m_localization(nullptr), m_icons(nullptr), m_database(nullptr), m_downloadManager(nullptr), m_shouldRestart(false) {
   connect(this, &Application::aboutToQuit, this, &Application::onAboutToQuit);
   connect(this, &Application::commitDataRequest, this, &Application::onCommitData);
@@ -325,6 +326,16 @@ void Application::deleteTrayIcon() {
     // Make sure that application quits when last window is closed.
     setQuitOnLastWindowClosed(true);
   }
+}
+
+void Application::setupApplicationIconBadge() {
+    if (ApplicationIconBadge::isApplicationIconBadgeAvailable()) {
+        if (m_iconBadge == nullptr) {
+            m_iconBadge = new ApplicationIconBadge(this);
+        }
+        connect(m_feedReader->feedsModel(), &FeedsModel::messageCountsChanged, m_iconBadge, &ApplicationIconBadge::setNumber);
+        m_iconBadge->setNumber(m_feedReader->feedsModel()->countOfUnreadMessages());
+    }
 }
 
 void Application::showGuiMessage(const QString &title, const QString &message,

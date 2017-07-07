@@ -28,6 +28,7 @@
 #include "miscellaneous/databasefactory.h"
 #include "miscellaneous/iofactory.h"
 #include "gui/systemtrayicon.h"
+#include "gui/applicationiconbadge.h"
 #include "network-web/downloadmanager.h"
 #include "core/feeddownloader.h"
 
@@ -103,6 +104,7 @@ class Application : public QtSingleApplication {
 
     void showTrayIcon();
     void deleteTrayIcon();
+    void setupApplicationIconBadge();
 
     // Displays given simple message in tray icon bubble or OSD
     // or in message box if tray icon is disabled.
@@ -159,6 +161,7 @@ class Application : public QtSingleApplication {
     QList<QAction*> m_userActions;
     FormMain *m_mainForm;
     SystemTrayIcon *m_trayIcon;
+    ApplicationIconBadge *m_iconBadge;
     Settings *m_settings;
     SystemFactory *m_system;
     SkinFactory *m_skins;

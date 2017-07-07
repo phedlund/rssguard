@@ -61,6 +61,7 @@ SettingsGui::SettingsGui(Settings *settings, QWidget *parent) : SettingsPanel(se
   connect(m_ui->m_checkEnableNotifications, &QCheckBox::toggled, this, &SettingsGui::dirtifySettings);
   connect(m_ui->m_checkHidden, &QCheckBox::toggled, this, &SettingsGui::dirtifySettings);
   connect(m_ui->m_checkHideWhenMinimized, &QCheckBox::toggled, this, &SettingsGui::dirtifySettings);
+  connect(m_ui->m_checkAppIconBadge, &QCheckBox::toggled, this, &SettingsGui::dirtifySettings);
   connect(m_ui->m_checkHideTabBarIfOneTabVisible, &QCheckBox::toggled, this, &SettingsGui::dirtifySettings);
   connect(m_ui->m_checkCloseTabsDoubleClick, &QCheckBox::toggled, this, &SettingsGui::dirtifySettings);
   connect(m_ui->m_checkCloseTabsMiddleClick, &QCheckBox::toggled, this, &SettingsGui::dirtifySettings);
@@ -109,6 +110,14 @@ void SettingsGui::loadSettings() {
 
   m_ui->m_checkHidden->setChecked(settings()->value(GROUP(GUI), SETTING(GUI::MainWindowStartsHidden)).toBool());
   m_ui->m_checkHideWhenMinimized->setChecked(settings()->value(GROUP(GUI), SETTING(GUI::HideMainWindowWhenMinimized)).toBool());
+
+#ifdef Q_OS_MAC
+  m_ui->m_checkAppIconBadge->setChecked(settings()->value(GROUP(GUI), SETTING(GUI::ApplicationIconBadge)).toBool());
+  m_ui->m_checkAppIconBadge->setEnabled(true);
+#else
+  m_ui->m_checkAppIconBadge->setChecked(false);
+  m_ui->m_checkAppIconBadge->setEnabled(false);
+#endif
 
   // Load fancy notification settings.
   m_ui->m_checkEnableNotifications->setChecked(settings()->value(GROUP(GUI), SETTING(GUI::EnableNotifications)).toBool());
@@ -221,6 +230,9 @@ void SettingsGui::saveSettings() {
 
   // Save notifications.
   settings()->setValue(GROUP(GUI), GUI::EnableNotifications, m_ui->m_checkEnableNotifications->isChecked());
+
+  settings()->setValue(GROUP(GUI), GUI::ApplicationIconBadge, m_ui->m_checkAppIconBadge->isChecked());
+  qApp->setupApplicationIconBadge();
 
   // Save selected icon theme.
   QString selected_icon_theme = m_ui->m_cmbIconTheme->itemData(m_ui->m_cmbIconTheme->currentIndex()).toString();

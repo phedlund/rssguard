@@ -321,6 +321,7 @@ HEADERS +=  src/core/feeddownloader.h \
             src/gui/settings/settingsbrowsermail.h \
             src/gui/settings/settingsfeedsmessages.h \
             src/gui/settings/settingsdownloads.h \
+            src/gui/applicationiconbadge.h \
             src/miscellaneous/feedreader.h \
             src/services/standard/atomparser.h \
             src/services/standard/feedparser.h \
@@ -447,6 +448,7 @@ SOURCES +=  src/core/feeddownloader.cpp \
             src/gui/settings/settingsbrowsermail.cpp \
             src/gui/settings/settingsfeedsmessages.cpp \
             src/gui/settings/settingsdownloads.cpp \
+            src/gui/applicationiconbadge.cpp \
             src/miscellaneous/feedreader.cpp \
             src/services/standard/atomparser.cpp \
             src/services/standard/feedparser.cpp \
@@ -758,6 +760,7 @@ unix:!mac {
 }
 
 mac {
+  QT += macextras
   IDENTIFIER = org.$${TARGET}.RSSGuard
   CONFIG -= app_bundle
   ICON = resources/macosx/$${TARGET}.icns

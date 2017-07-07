@@ -127,6 +127,9 @@ DVALUE(bool) GUI::UseTrayIconDef = true;
 DKEY GUI::EnableNotifications                   = "enable_notifications";
 DVALUE(bool) GUI::EnableNotificationsDef        = true;
 
+DKEY GUI::ApplicationIconBadge                   = "enable_application_icon_badge";
+DVALUE(bool) GUI::ApplicationIconBadgeDef        = true;
+
 DKEY GUI::TabCloseMiddleClick                  = "tab_close_mid_button";
 DVALUE(bool) GUI::TabCloseMiddleClickDef       = true;
 

@@ -176,6 +176,9 @@ namespace GUI {
 
   KEY Style;
   VALUE(char*) StyleDef;
+
+  KEY ApplicationIconBadge;
+  VALUE(bool) ApplicationIconBadgeDef;
 }
 
 // General.
